@@ -5,14 +5,18 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created by lzr on 2017/4/15.
  * 通过注解@EnableEurekaClient 表明自己是一个eurekaclient（服务提供者）.
  * 仅仅@EnableEurekaClient是不够的，还需要在配置文件中注明自己的服务注册中心的地址，
+ *
+ * Spring4.3中引进了｛@GetMapping、@PostMapping、@PutMapping、@DeleteMapping、
+ * @PatchMapping｝，来帮助简化常用的HTTP方法的映射，并更好地表达被注解方法的语义。
+ *
+ * @GetMapping是一个组合注解，是@RequestMapping(method = RequestMethod.GET)的缩
+ * 写。该注解将HTTP Get 映射到 特定的处理方法上。
  */
 
 @SpringBootApplication
@@ -23,7 +27,7 @@ public class ServiceApplication {
         SpringApplication.run(ServiceApplication.class, args);
     }
 
-    @RequestMapping("/service2")
+    @GetMapping("/service2")
     public String service(){
         return "service";
     }
@@ -31,9 +35,9 @@ public class ServiceApplication {
     @Value("${server.port}")
     String port;
 
-    @RequestMapping("/hi")
-    public String home(@RequestParam(value = "name", defaultValue = "forezp") String name) {
-        return "hi " + name + " ,i am from port:" + port;
+    @GetMapping("/hi")
+    public String home(@RequestParam(value = "name", defaultValue = "czp") String name) {
+        return "hellow world!! " + name + " ,i am from port:" + port;
     }
 
     @GetMapping("/service")
